@@ -37,7 +37,7 @@ To get started with the project locally:
 
 
 
-### mile stone 2
+### Milestone 2
 In Milestone 2, we've moved the e-commerce application to the next level. Having completed Milestone 1, we have focused on structuring the project, setting up both the frontend and backend environments, and building the first user-facing feature – the Login Page. In this milestone, we ensure the project is structured and organized for what features will come in.
 
 Learning Goals ????
@@ -67,3 +67,59 @@ Basic fields included were Email, Password fields with a submit button.
 Has potential to implement new functionalities (in this case authentication).
 
 
+### Milestone 3
+
+## API Endpoints
+
+### User Routes
+- **POST /user/signup**: Create a new user
+    - Request Body: `{ "email": "user@example.com", "password": "password123" }`
+    - Response: `{ "message": "User Created Successfully" }`
+
+- **POST /user/login**: Authenticate a user
+    - Request Body: `{ "email": "user@example.com", "password": "password123" }`
+    - Response: `{ "token": "JWT token" }`
+
+- **GET /user/profile**: Get user profile
+    - Headers: `{ "Authorization": "Bearer <token>" }`
+    - Response: `{ "email": "user@example.com", "name": "John Doe" }`
+
+### Product Routes
+- **POST /product**: Create a new product
+    - Request Body: `{ "name": "Product Name", "price": 100, "description": "Product Description" }`
+    - Response: `{ "message": "Product Created Successfully" }`
+
+- **GET /product/:id**: Get product details
+    - Response: `{ "name": "Product Name", "price": 100, "description": "Product Description" }`
+
+- **PUT /product/:id**: Update product details
+    - Request Body: `{ "name": "Updated Product Name", "price": 150, "description": "Updated Product Description" }`
+    - Response: `{ "message": "Product Updated Successfully" }`
+
+- **DELETE /product/:id**: Delete a product
+    - Response: `{ "message": "Product Deleted Successfully" }`
+
+### Cart Routes
+- **POST /cart**: Add a product to the cart
+    - Request Body: `{ "productId": "product_id", "quantity": 1 }`
+    - Response: `{ "message": "Product Added to Cart" }`
+
+- **GET /cart**: Get cart details
+    - Response: `{ "products": [{ "productId": "product_id", "quantity": 1 }] }`
+
+- **DELETE /cart/:id**: Remove a product from the cart
+    - Response: `{ "message": "Product Removed from Cart" }`
+
+### Order Routes
+- **POST /order**: Place an order
+    - Request Body: `{ "cartId": "cart_id", "paymentMethod": "stripe" }`
+    - Response: `{ "message": "Order Placed Successfully" }`
+
+- **GET /order/:id**: Get order details
+    - Response: `{ "orderId": "order_id", "status": "Processing", "total": 100 }`
+
+## Error Handling
+The application uses a centralized error handling mechanism. Errors are captured and passed to the error middleware, which sends a structured JSON response.
+
+### Database Connection
+The database connection is established using Mongoose. The connection configuration is located in connection.js
