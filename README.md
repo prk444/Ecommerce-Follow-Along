@@ -123,3 +123,19 @@ The application uses a centralized error handling mechanism. Errors are captured
 
 ### Database Connection
 The database connection is established using Mongoose. The connection configuration is located in connection.js
+
+
+
+### Milestone 4
+
+Learning Goals 
+By the end of this milestone, you will:
+Create a User Model: This is like a blueprint for how your users' data will be stored in the database.
+Create a User Controller: This will help you manage what happens with your user data (like adding a new user or getting their information).
+Enable and configure Multer: Multer will allow your app to accept and store files (such as images) uploaded by users.
+Update the README file: Don’t forget to document your progress!
+1. What’s a Model?
+A model is like a detailed map or plan. When you create a User Model, you’re designing how a user’s data (like name, email, and password) will look in the database. Imagine drawing a blueprint of a house. The model is the map of what information you need to store for each user. In MongoDB, we use something called Schemas to create a model. A schema is a definition of what data should look like for that model.
+
+2. What’s a Controller?
+A controller is a special part of the server that decides what happens when someone interacts with your app. For example, if someone wants to sign up for your website, the controller will handle what happens when the data is sent to the server. Think of the controller as a "manager" of requests and responses. It’s like the teacher in a classroom—telling the students (your app) what to do and ensuring everything goes smoothly.
