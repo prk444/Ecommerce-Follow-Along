@@ -139,3 +139,49 @@ A model is like a detailed map or plan. When you create a User Model, you’re d
 
 2. What’s a Controller?
 A controller is a special part of the server that decides what happens when someone interacts with your app. For example, if someone wants to sign up for your website, the controller will handle what happens when the data is sent to the server. Think of the controller as a "manager" of requests and responses. It’s like the teacher in a classroom—telling the students (your app) what to do and ensuring everything goes smoothly.
+
+### Milestone 5
+### 1. File Uploads with Multer
+Sometimes, your users might want to upload files like profile pictures.
+To help with this, we use Multer, which is a tool that makes it easy to upload files to your server.
+Multer will help us store user images in the backend and keep track of them. It's like a virtual file cabinet for storing pictures!
+
+## Steps for Milestone 5 📝
+Let’s walk through the steps to complete this milestone:
+This milestone will be a mentor-led lesson where your mentor will guide you through:
+- Explaining and creating the User Model
+- Creating the User Controller
+- Setting up Multer for file uploads
+
+### Creating the User Model
+The User Model is a blueprint for how user data will be stored in the database. It defines the structure of the user data, including fields like name, email, and password.
+
+### Milestone 6
+Creating the User Controller:
+The User Controller manages what happens with user data, such as adding a new user or getting user information. It handles requests and responses related to user operations.
+
+Setting up Multer for File Uploads:
+Multer is a middleware for handling multipart/form-data, which is primarily used for uploading files. We will configure Multer to store uploaded files in a specific directory.
+
+Integrating Multer with User Routes
+We will integrate Multer with the user routes to handle file uploads.
+
+### Milestone 7
+
+## Learning Goals 🎯
+By the end of this milestone, you will:
+
+- Implement User Authentication: Secure login and token management using JWT.
+- Create Product Management APIs: Ability to add, update, delete, and view products.
+- Implement Cart and Order Management: Users can add products to their cart and place orders.
+- Integrate Payment Gateway: Seamless payment options for processing transactions.
+- Update the README file: Don’t forget to document your progress!
+
+### 1. User Authentication
+User authentication is crucial for securing your application. We will use JWT (JSON Web Tokens) for secure login and token management.
+
+### 2. Product Management APIs
+We will create APIs for managing products, including adding, updating, deleting, and viewing products.
+
+### 3. Cart and Order Management
+We will implement APIs for managing the cart and orders, allowing users to add products to their cart and place orders.
