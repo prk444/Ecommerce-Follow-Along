@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { IoMdEyeOff, IoMdEye } from "react-icons/io";
 
-function Login() {
+function Login(props) {
   const [showPassword, setShowPassword] = useState(false);
 
   const handlePasswordToggle = () => {
@@ -57,8 +57,8 @@ function Login() {
           Submit
         </button>
       </form>
-      <p className="mt-4">
-        Don't have an account? <a href="/signup" className="text-blue-500">Sign up</a>
+      <p className="mt-4" onClick={props.x}>
+        Don't have an account?
       </p>
     </div>
   );
