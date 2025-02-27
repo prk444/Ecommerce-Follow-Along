@@ -59,7 +59,7 @@ userRouter.get("/activation/:token", asyncErrorCatch(async (req, res, next) => {
         }
 
         let id = decoded.id;
-        await UserModel.findByIdAndUpdate(id, { isActivated: true });
+        await UserModel.findByIdAnd(id, { isActivated: true });
 
         res.status(200).json({ status: true, message: "activation is completed" });
     });

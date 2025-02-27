@@ -1,28 +1,18 @@
-let express = require('express');
-let cors=require('cors');
-
-let app = express();
-app.use(express.json());
-let errormiddleware=require('./middleware/errormiddleware');
+const express = require('express');
+const app = express();
 const userRouter = require('./controllers/userRoute');
+const productRouter = require('./controllers/productRoutes');
+const errorMiddleware = require('./middleware/errormiddleware');
 
-app.use(cors({
-    origin:"*",
-    credentials:true
-}));
-app.use("/user",userRouter)
- 
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
+// Routes
+app.use('/api/users', userRouter);
+app.use('/api/products', productRouter);
 
+// Error Middleware
+app.use(errorMiddleware);
 
-
-
-
-app.get("/test",(req,res)=>{
-    res.send("Hello World");
-})
-
-
-
-app.use(errormiddleware)
-module.exports = app; 
+module.exports = app;

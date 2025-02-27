@@ -1,66 +1,136 @@
-import React, { useState } from 'react';
-import { IoMdEyeOff, IoMdEye } from "react-icons/io";
+import React, { useState } from "react";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Login(props) {
-  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
-  const handlePasswordToggle = () => {
-    setShowPassword(!showPassword);
+  const [hide, setHide] = useState(true);
+  const [error, setError] = useState("");
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleHide = () => {
+    setHide(!hide);
+  };
+
+  const handleForm = (e) => {
+    setError("")
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async () => {
+    const { email, password } = data;
+    if (!email || !password) {
+      setError("Please fill all fields");
+      return;
+    }
+
+    try {
+      await axios
+        .post("http://localhost:8975/user/login", {
+          email,
+          password,
+        })
+        .then((response) => {
+          console.log(response,"888")
+          navigate("/");
+        });
+
+      console.log("Login successful");
+      
+    } catch (error) {
+      console.log(error.response.data.message);
+      setError(error.response.data.message);
+    }
   };
 
   return (
-    <div className="max-w-md mx-auto p-5 border rounded-md mt-40">
-      <h2 className="text-2xl font-semibold mb-4">Login to your account</h2>
-      <form>
-        <div className="mb-4">
-          <label htmlFor="email" className="block mb-2">Email address</label>
+    <>
+      <div className="flex justify-center items-center min-h-screen bg-gray-100">
+        <div className="w-full sm:w-[400px] bg-white p-8 rounded-lg shadow-md">
+          <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">
+            Login to your account
+          </h1>
+
+          {error && (
+            <div className="bg-red-200 text-red-800 p-2 rounded-md mb-4 text-center">
+              {error}
+            </div>
+          )}
+
+          <label htmlFor="email" className="block text-gray-600 font-medium mb-2">
+            Email address
+          </label>
           <input
-            type="email"
             id="email"
-            className="w-full p-2 border rounded"
-            required
+            type="email"
+            name="email"
+            value={data.email}
+            onChange={handleForm}
+            className="w-full p-3 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-        </div>
-        <div className="mb-4 relative">
-          <label htmlFor="password" className="block mb-2">Password</label>
+
+          <label htmlFor="password" className="block text-gray-600 font-medium mb-2">
+            Password
+          </label>
           <div className="relative">
             <input
-              type={showPassword ? "text" : "password"}
               id="password"
-              className="w-full p-2 border rounded pr-10"
-              required
+              name="password"
+              type={hide ? "password" : "text"}
+              value={data.password}
+              onChange={handleForm}
+              className="w-full p-3 border border-gray-300 rounded-md mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <button
               type="button"
-              onClick={handlePasswordToggle}
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600"
+              onClick={handleHide}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
             >
-              {showPassword ? <IoMdEyeOff /> : <IoMdEye />}
+              {hide ? (
+                <FaRegEye size={20} />
+              ) : (
+                <FaRegEyeSlash size={20} />
+              )}
             </button>
           </div>
+
+          <div className="flex justify-between items-center mb-4">
+            <div className="flex items-center">
+              <input type="checkbox" id="remember" className="mr-2" />
+              <label htmlFor="remember" className="text-gray-600">Remember me</label>
+            </div>
+            <a href="#" className="text-blue-600 hover:underline text-sm">
+              Forgot password?
+            </a>
+          </div>
+
+          <button
+            type="button"
+            onClick={handleSubmit}
+            className="w-full p-3 bg-blue-600 text-white font-semibold rounded-md mb-4 hover:bg-blue-700 transition"
+          >
+            Login
+          </button>
+
+          <div className="text-center">
+            <p className="text-gray-600">
+              Don't have an account?{" "}
+              <span
+                onClick={props.x}
+                className="text-blue-600 cursor-pointer hover:underline"
+              >
+                Sign up
+              </span>
+            </p>
+          </div>
         </div>
-        <div className="mb-4 flex items-center">
-          <input
-            type="checkbox"
-            id="rememberMe"
-            className="mr-2"
-          />
-          <label htmlFor="rememberMe">Remember me</label>
-        </div>
-        <div className="mb-4">
-          <a href="/forgot-password" className="text-blue-500">Forgot your password?</a>
-        </div>
-        <button
-          type="submit"
-          className="w-full p-3 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          Submit
-        </button>
-      </form>
-      <p className="mt-4" onClick={props.x}>
-        Don't have an account?
-      </p>
-    </div>
+      </div>
+    </>
   );
 }
 

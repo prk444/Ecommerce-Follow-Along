@@ -251,3 +251,163 @@ The form includes fields for essential product details such as name, description
 To ensure data accuracy, the form implements validation rules, requiring users to input necessary information and upload images in supported formats. The ability to preview images before submission further improves user experience by allowing verification of uploaded files.  
 
 By integrating multiple image uploads, this form enhances the way products are displayed, helping businesses and sellers showcase their items more effectively. It is designed with simplicity and efficiency in mind, making product management seamless and convenient.
+
+## **Milestone 10: Product Schema & API Endpoint**
+### **Overview**
+Defined **Product Schema** using Mongoose and implemented a **POST API endpoint**.
+
+### **Key Achievements**
+1. **Product Schema (Mongoose):**
+   ```js
+  const productSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    description: { type: String, required: true },
+    tags: { type: [String], required: true },
+    price: { type: Number, required: true },
+    stock: { type: Number, required: true },
+    category: { type: String, required: true },
+    images: { type: [String], required: true },
+    email: { 
+        type: String, 
+        required: true, 
+        match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please enter a valid email address'] 
+    }}, { timestamps: true });
+
+   ```
+2. **API Endpoint (`/api/products`)**
+   - Validates and stores product details in **MongoDB**.
+   - Ensures **data integrity & validation**.
+
+### **Technologies Used**
+- **Node.js & Express.js**
+- **MongoDB Atlas & Mongoose**
+- **Multer (for file uploads)**
+
+---
+
+## **Conclusion**
+This e-commerce project follows a structured milestone-based approach, ensuring a **scalable, secure, and fully functional** web application.
+
+
+### Milestone 11
+## Get All Products Endpoint
+
+### Backend
+
+The `/api/products/all` endpoint retrieves all products from the database and sends them to the frontend.
+
+#### Endpoint
+
+- **URL**: `/api/products/all`
+- **Method**: `GET`
+- **Description**: Retrieves all products from the database.
+- **Response**:
+  - `200 OK`: List of products.
+
+#### Example Code
+
+```javascript
+// filepath: /c:/Users/prk41/Ecommerce-Follow-Along/backend/controllers/productRoutes.js
+productRouter.get(
+  "/all",
+  catchAsyncError(async (req, res, next) => {
+    const products = await ProductModel.find();
+    res.status(200).json({
+      success: true,
+      products,
+    });
+  })
+);.
+
+
+### Milestone 12
+ ## Get All Products with User Email Endpoint
+
+### Backend
+
+The `/api/products/allWithUserEmail` endpoint retrieves all products from the database along with the user email and sends them to the frontend.
+
+#### Endpoint
+
+- **URL**: `/api/products/allWithUserEmail`
+- **Method**: `GET`
+- **Description**: Retrieves all products from the database along with the user email.
+- **Response**:
+  - `200 OK`: List of products with user email.
+
+#### Example Code
+
+```javascript
+// filepath: /c:/Users/prk41/Ecommerce-Follow-Along/backend/controllers/productRoutes.js
+productRouter.get(
+  "/allWithUserEmail",
+  catchAsyncError(async (req, res, next) => {
+    const products = await ProductModel.find().populate('user', 'email');
+    res.status(200).json({
+      success: true,
+      products,
+    });
+  })
+);```
+
+Frontend
+The frontend fetches all products data with user email from the backend and displays them dynamically using the ProductCard component.
+
+Fetching Products Data
+The ProductPage component fetches all products data from the /api/products/allWithUserEmail endpoint and stores it in the state. It then maps over the products array to render a ProductCard component for each product.
+ 
+ ### Milestone 13
+ ## Update Product Endpoint
+
+### Backend
+
+The `/api/products/updateProduct/:id` endpoint updates an existing product in the database with new data.
+
+#### Endpoint
+
+- **URL**: `/api/products/updateProduct/:id`
+- **Method**: `PUT`
+- **Description**: Updates an existing product in the database with new data.
+- **Response**:
+  - `200 OK`: Product updated successfully.
+  - `404 Not Found`: Product not found.
+
+#### Example Code
+
+```javascript
+// filepath: /c:/Users/prk41/Ecommerce-Follow-Along/backend/controllers/productRoutes.js
+productRouter.put(
+  "/updateProduct/:id",
+  upload.array("images", 10),
+  catchAsyncError(async (req, res, next) => {
+    const { name, description, category, tags, price, stock } = req.body;
+    const images = req.files.map((file) => file.path);
+
+    const updatedProduct = await ProductModel.findByIdAndUpdate(
+      req.params.id,
+      {
+        name,
+        description,
+        category,
+        tags,
+        price,
+        stock,
+        images,
+      },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedProduct) {
+      return next(new ErrorHandler("Product not found", 404));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Product updated successfully",
+      product: updatedProduct,
+    });
+  })
+);```
+
+
+
