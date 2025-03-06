@@ -321,6 +321,7 @@ productRouter.get(
 
 
 ### Milestone 12
+
  ## Get All Products with User Email Endpoint
 
 ### Backend
@@ -355,8 +356,10 @@ The frontend fetches all products data with user email from the backend and disp
 
 Fetching Products Data
 The ProductPage component fetches all products data from the /api/products/allWithUserEmail endpoint and stores it in the state. It then maps over the products array to render a ProductCard component for each product.
+
  
  ### Milestone 13
+
  ## Update Product Endpoint
 
 ### Backend
@@ -409,5 +412,62 @@ productRouter.put(
   })
 );```
 
+### Milestone 14
 
+## Delete Product Endpoint
 
+### Backend
+
+The `/api/products/deleteProduct/:id` endpoint deletes a product from the database using its ID.
+
+#### Endpoint
+
+- **URL**: `/api/products/deleteProduct/:id`
+- **Method**: `DELETE`
+- **Description**: Deletes a product from the database using its ID.
+- **Response**:
+  - `200 OK`: Product deleted successfully.
+  - `404 Not Found`: Product not found.
+
+#### Example Code
+
+```javascript
+// filepath: /c:/Users/prk41/Ecommerce-Follow-Along/backend/controllers/productRoutes.js
+productRouter.delete(
+  "/deleteProduct/:id",
+  catchAsyncError(async (req, res, next) => {
+    const product = await ProductModel.findByIdAndDelete(req.params.id);
+
+    if (!product) {
+      return next(new ErrorHandler("Product not found", 404));
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Product deleted successfully",
+    });
+  })
+);```
+
+### Milestone 15
+
+NavBar Component:-
+
+The NavBar component is a responsive navigation bar for your e-commerce application. It includes links to various pages such as Home, Add Products, Cart, and Login. The navigation bar adapts to different screen sizes, providing a hamburger menu for mobile devices.
+
+Features:-
+
+Responsive Design: Adapts to different screen sizes using Tailwind CSS classes.
+Hamburger Menu: Provides a toggleable menu for mobile devices.
+Navigation Links: Includes links to Home, Add Products, Cart, and Login pages.
+
+Explanation:
+Hamburger Menu Button: This button toggles the mobile menu visibility.
+
+Large Screen Navigation: The navigation links are displayed in a horizontal row for larger screens.
+
+Mobile Menu: The navigation links are displayed in a vertical list for smaller screens when the menu is open.
+
+Responsive Design: The navigation bar is responsive and adapts to different screen sizes using Tailwind CSS classes.
+
+This NavBar component should provide a responsive navigation experience for your application.

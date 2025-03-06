@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// import { IoHome } from "react-icons/io5";
-// import { TbLogin2 } from "react-icons/tb";
+import { IoHome } from "react-icons/io5";
+import { TbLogin2 } from "react-icons/tb";
 
 
 function Navbar() {
@@ -12,7 +12,7 @@ function Navbar() {
           to="/"
           className="border px-4 py-2 rounded hover:bg-gray-100 flex items-center"
         >
-          {/* <IoHome className="mr-2" /> */}
+          <IoHome className="mr-2" />
           Home
         </Link>
       </li>
@@ -21,7 +21,7 @@ function Navbar() {
           to="/login"
           className="border px-4 py-2 rounded hover:bg-gray-100 flex items-center"
         >
-          {/* <TbLogin2 className="mr-2" /> */}
+          <TbLogin2 className="mr-2" />
           Login
         </Link>
       </li>

@@ -31,7 +31,7 @@ productRouter.post(
 );
 
 productRouter.get(
-  "/",
+  "/allProduct",
   catchAsyncError(async (req, res, next) => {
     const products = await ProductModel.find();
     res.status(200).json({
@@ -89,7 +89,7 @@ productRouter.put(
 );
 
 productRouter.delete(
-  "/:id",
+  "/deleteProduct/:id",
   catchAsyncError(async (req, res, next) => {
     const product = await ProductModel.findByIdAndDelete(req.params.id);
     if (!product) {
