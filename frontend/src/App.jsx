@@ -1,22 +1,25 @@
 import React from 'react';
-import {BrowserRouter,Routes,Route} from "react-router-dom"
-  // Import the CSS file
-import Home from "./pages/Home"
-import Login from "./pages/LoginPage"
-import Navbar  from  "./components/nav"
-import CreateProduct from "./pages/CreateProduct"
-function app() {
-  return (
-     <BrowserRouter>
-        <Navbar/>
-       <Routes>
-            <Route  path="/"  element={<Home/>}/>
-            <Route path="/login" element={<Login/>}/>
-            <Route path="/create" element={<CreateProduct/>}></Route>
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import NavBar from './components/nav';
+import Home from './pages/Home';
+import CreateProduct from './pages/CreateProduct';
+import Productpage from './pages/Productpage';
+import LoginPage from './pages/LoginPage';
+import ProductDetailPage from './pages/ProductDetailPage';
 
-       </Routes>
-     </BrowserRouter>
+function App() {
+  return (
+    <Router>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/create" element={<CreateProduct />} />
+        <Route path="/cart" element={<Productpage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/product/:id" element={<ProductDetailPage />} />
+      </Routes>
+    </Router>
   );
 }
 
-export default app;
+export default App;

@@ -287,6 +287,9 @@ Defined **Product Schema** using Mongoose and implemented a **POST API endpoint*
 
 ## **Conclusion**
 This e-commerce project follows a structured milestone-based approach, ensuring a **scalable, secure, and fully functional** web application.
+```
+
+
 
 
 ### Milestone 11
@@ -471,3 +474,38 @@ Mobile Menu: The navigation links are displayed in a vertical list for smaller s
 Responsive Design: The navigation bar is responsive and adapts to different screen sizes using Tailwind CSS classes.
 
 This NavBar component should provide a responsive navigation experience for your application.
+
+
+### Milestone 16
+## Product Detail Page
+
+### Backend
+
+The `/api/products/:id` endpoint retrieves a product from the database using its ID.
+
+#### Endpoint
+
+- **URL**: `/api/products/:id`
+- **Method**: `GET`
+- **Description**: Retrieves a product from the database using its ID.
+- **Response**:
+  - `200 OK`: Product retrieved successfully.
+  - `404 Not Found`: Product not found.
+
+#### Example Code
+
+```javascript
+// filepath: [productRoutes.js](http://_vscodecontentref_/1)
+productRouter.get(
+  "/:id",
+  catchAsyncError(async (req, res, next) => {
+    const product = await ProductModel.findById(req.params.id);
+    if (!product) {
+      return next(new ErrorHandler("Product not found", 404));
+    }
+    res.status(200).json({
+      success: true,
+      product,
+    });
+  })
+);

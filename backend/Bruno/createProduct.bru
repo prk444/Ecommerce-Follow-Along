@@ -6,6 +6,17 @@ meta {
 
 post {
   url: http://localhost:8080/product/createProduct
-  body: none
+  body: multipartForm
   auth: none
+}
+
+body:multipart-form {
+  name: Stylish T-Shirt
+  description: A trendy and comfortable cotton T-shirt available in multiple colors.
+   tags: ["fashion", "t-shirt", "cotton", "casual"]
+   price: 9999
+  stock: 50
+  category: Clothing
+  email: seller@example.com
+  images: @file(C:\Users\prk41\OneDrive\Pictures\Screenshots\Screenshot 2025-02-03 151222.png)
 }
