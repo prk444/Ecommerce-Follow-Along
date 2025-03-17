@@ -6,7 +6,9 @@ const productRouter = express.Router();
 const { UserModel } = require("../model/usermodel");
 const upload = require("../middleware/multer");
 const { default: mongoose } = require("mongoose");
-
+const Cart = require('../model/cartModel');
+const { findById } = require("../model/productModel");
+const { findByIdAndUpdate } = require("../model/productModel");
 productRouter.post(
   "/createProduct",
   upload.array("images", 10),
@@ -192,6 +194,69 @@ res.status(200).json({
   cartItems,
 });
 }));
+
+
+productRouter.put(
+  "/cart/increase/:userId/:productId",
+  catchAsyncError(async (req, res, next) => {
+    const { userId, productId } = req.params;
+
+    const cart = await Cart.findOne({ user: userId });
+
+    if (!cart) {
+      return next(new ErrorHandler("Cart not found", 404));
+    }
+
+    const productIndex = cart.products.findIndex(
+      (item) => item.product.toString() === productId
+    );
+
+    if (productIndex > -1) {
+      cart.products[productIndex].quantity += 1;
+      await cart.save();
+      res.status(200).json({
+        success: true,
+        cart,
+      });
+    } else {
+      return next(new ErrorHandler("Product not found in cart", 404));
+    }
+  })
+);
+
+productRouter.put(
+  "/cart/decrease/:userId/:productId",
+  catchAsyncError(async (req, res, next) => {
+    const { userId, productId } = req.params;
+
+    const cart = await Cart.findOne({ user: userId });
+
+    if (!cart) {
+      return next(new ErrorHandler("Cart not found", 404));
+    }
+
+    const productIndex = cart.products.findIndex(
+      (item) => item.product.toString() === productId
+    );
+
+    if (productIndex > -1) {
+      if (cart.products[productIndex].quantity > 1) {
+        cart.products[productIndex].quantity -= 1;
+        await cart.save();
+        res.status(200).json({
+          success: true,
+          cart,
+        });
+      } else {
+        return next(new ErrorHandler("Quantity cannot be less than 1", 400));
+      }
+    } else {
+      return next(new ErrorHandler("Product not found in cart", 404));
+    }
+  })
+);
+
+
 
 
 

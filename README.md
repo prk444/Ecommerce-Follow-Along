@@ -595,3 +595,94 @@ productRouter.get(
     });
   })
 );
+
+### Milestone 19
+
+## Increase and Decrease Quantity Endpoints
+
+### Backend
+
+The `/api/products/cart/increase/:userId/:productId` and `/api/products/cart/decrease/:userId/:productId` endpoints increase and decrease the quantity of a product in the user's cart, respectively.
+
+#### Endpoints
+
+- **URL**: `/api/products/cart/increase/:userId/:productId`
+- **Method**: `PUT`
+- **Description**: Increases the quantity of a product in the user's cart.
+- **Response**:
+  - `200 OK`: Quantity increased successfully.
+  - `404 Not Found`: Cart or product not found.
+
+- **URL**: `/api/products/cart/decrease/:userId/:productId`
+- **Method**: `PUT`
+- **Description**: Decreases the quantity of a product in the user's cart.
+- **Response**:
+  - `200 OK`: Quantity decreased successfully.
+  - `404 Not Found`: Cart or product not found.
+  - `400 Bad Request`: Quantity cannot be less than 1.
+
+#### Example Code
+
+```javascript
+// filepath: [productRoutes.js](http://_vscodecontentref_/0)
+const Cart = require('../model/cartModel');
+
+productRouter.put(
+  "/cart/increase/:userId/:productId",
+  catchAsyncError(async (req, res, next) => {
+    const { userId, productId } = req.params;
+
+    const cart = await Cart.findOne({ user: userId });
+
+    if (!cart) {
+      return next(new ErrorHandler("Cart not found", 404));
+    }
+
+    const productIndex = cart.products.findIndex(
+      (item) => item.product.toString() === productId
+    );
+
+    if (productIndex > -1) {
+      cart.products[productIndex].quantity += 1;
+      await cart.save();
+      res.status(200).json({
+        success: true,
+        cart,
+      });
+    } else {
+      return next(new ErrorHandler("Product not found in cart", 404));
+    }
+  })
+);
+
+productRouter.put(
+  "/cart/decrease/:userId/:productId",
+  catchAsyncError(async (req, res, next) => {
+    const { userId, productId } = req.params;
+
+    const cart = await Cart.findOne({ user: userId });
+
+    if (!cart) {
+      return next(new ErrorHandler("Cart not found", 404));
+    }
+
+    const productIndex = cart.products.findIndex(
+      (item) => item.product.toString() === productId
+    );
+
+    if (productIndex > -1) {
+      if (cart.products[productIndex].quantity > 1) {
+        cart.products[productIndex].quantity -= 1;
+        await cart.save();
+        res.status(200).json({
+          success: true,
+          cart,
+        });
+      } else {
+        return next(new ErrorHandler("Quantity cannot be less than 1", 400));
+      }
+    } else {
+      return next(new ErrorHandler("Product not found in cart", 404));
+    }
+  })
+);
