@@ -509,3 +509,47 @@ productRouter.get(
     });
   })
 );
+
+### Milestone 17
+
+## Cart Schema and Add to Cart Endpoint
+
+### Backend
+
+The cart schema stores products added to the cart by users. The `/api/products/cart` endpoint allows users to add products to their cart.
+
+#### Cart Schema
+
+The cart schema includes the user ID and an array of products with their quantities.
+
+#### Example Code
+
+```javascript
+// filepath: [cartModel.js](http://_vscodecontentref_/2)
+const mongoose = require('mongoose');
+
+const cartSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  products: [
+    {
+      product: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product',
+        required: true,
+      },
+      quantity: {
+        type: Number,
+        required: true,
+        default: 1,
+      },
+    },
+  ],
+});
+
+const Cart = mongoose.model('Cart', cartSchema);
+
+module.exports = Cart;
