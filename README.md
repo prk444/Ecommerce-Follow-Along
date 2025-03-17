@@ -553,3 +553,45 @@ const cartSchema = new mongoose.Schema({
 const Cart = mongoose.model('Cart', cartSchema);
 
 module.exports = Cart;
+
+### Milestone 18
+
+
+## Get Products in Cart Endpoint
+
+### Backend
+
+The `/api/products/cart/:userId` endpoint retrieves the products inside the cart for a user.
+
+#### Endpoint
+
+- **URL**: `/api/products/cart/:userId`
+- **Method**: `GET`
+- **Description**: Retrieves the products inside the cart for a user.
+- **Response**:
+  - `200 OK`: Cart retrieved successfully.
+  - `404 Not Found`: Cart not found.
+
+#### Example Code
+
+```javascript
+// filepath: [productRoutes.js](http://_vscodecontentref_/0)
+const Cart = require('../model/cartModel');
+
+productRouter.get(
+  "/cart/:userId",
+  catchAsyncError(async (req, res, next) => {
+    const { userId } = req.params;
+
+    const cart = await Cart.findOne({ user: userId }).populate('products.product');
+
+    if (!cart) {
+      return next(new ErrorHandler("Cart not found", 404));
+    }
+
+    res.status(200).json({
+      success: true,
+      cart,
+    });
+  })
+);
